@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", 1))
 
-ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "localhost", "api"]
+ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "localhost"]
 INTERNAL_IPS = ["127.0.0.1"]
 if DEBUG:
     import os  # only if you haven't already imported this
@@ -300,6 +300,11 @@ SWAGGER_SETTINGS = {
     },
 }
 
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=4),
+}
+
 SPECTACULAR_SETTINGS = {
     'SCHEMA_PATH_PREFIX': r'/api/v1',
     'DEFAULT_GENERATOR_CLASS': 'drf_spectacular.generators.SchemaGenerator',
@@ -313,11 +318,11 @@ SPECTACULAR_SETTINGS = {
         "displayRequestDuration": True
     },
     'UPLOADED_FILES_USE_URL': True,
-    'TITLE': 'Prowoks Application API',
-    'DESCRIPTION': 'Prowoks API Doc',
+    'TITLE': 'Studentity Application API',
+    'DESCRIPTION': 'Studentity API Doc',
     'VERSION': '1.0.0',
     'LICENCE': {'name': 'BSD License'},
-    'CONTACT': {'name': 'Daniel Ale', 'email': 'daniel.ale@prunedge.com'},
+    'CONTACT': {'name': 'Studentity', 'email': 'larindeakin@gmail.com'},
 
     # Oauth2 related settings. used for example by django-oauth2-toolkit.
     # https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#oauth-flows-object

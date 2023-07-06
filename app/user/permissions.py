@@ -10,15 +10,15 @@ class IsSuperAdmin(permissions.BasePermission):
         return bool(request.user and request.user.roles and 'SUPERADMIN' in request.user.roles)
 
 
-class IsAdmin(permissions.BasePermission):
+class IsEmployer(permissions.BasePermission):
     """Allows access only to admin users. """
     message = "Only Admins are authorized to perform this action."
 
     def has_permission(self, request, view):
-        return bool(request.user and request.user.roles and 'ADMIN' in request.user.roles)
+        return bool(request.user and request.user.roles and 'EMPLOYER' in request.user.roles)
 
 
-class IsRegularUser(permissions.BasePermission):
+class IsStudent(permissions.BasePermission):
     """Allows access only to talent users. """
     message = "Only Regular users are authorized to perform this action."
 

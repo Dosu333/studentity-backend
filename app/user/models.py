@@ -19,7 +19,7 @@ from django.utils.crypto import get_random_string
 
 USER_ROLE = (
     ('REGULAR', 'REGULAR'),
-    ('ADMIN', 'ADMIN'),
+    ('EMPLOYER', 'EMPLOYER'),
     ('SUPERADMIN', 'SUPERADMIN'),
 )
 

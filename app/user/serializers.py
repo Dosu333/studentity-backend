@@ -37,6 +37,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
             email = attrs['email'].lower().strip()
             if get_user_model().objects.filter(email=email).exists():
                 raise serializers.ValidationError('Email already exists')
+            if not email.endswith('edu.ng'):
+                raise serializers.ValidationError('Email should be a .edu.ng email')
             try:
                 valid = validate_email(attrs['email'])
                 attrs['email'] = valid.email
@@ -52,7 +54,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
             defaults={'user': user, 'token_type': 'ACCOUNT_VERIFICATION', 'token': get_random_string(120)})
         user_data = {'id': user.id, 'email': user.email, 'fullname': f"{user.lastname} {user.firstname}",
                      'url': f"{settings.CLIENT_URL}/verify-user/?token={token.token}"}
-        send_new_user_email.delay(user_data)
+        # send_new_user_email.delay(user_data)
         return user
 
     def update(self, instance, validated_data):
