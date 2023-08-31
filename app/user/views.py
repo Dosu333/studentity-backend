@@ -19,7 +19,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.core.cache import cache
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from .models import User, Token
-from .permissions import IsAdmin, IsRegularUser, IsSuperAdmin
+from .permissions import IsSuperAdmin
 from .serializers import (CreateUserSerializer, ListUserSerializer, AuthTokenSerializer, CustomObtainTokenPairSerializer,
                           VerifyTokenSerializer, InitializePasswordResetSerializer, CreatePasswordSerializer)
 from .tasks import send_registration_email, send_password_reset_email
@@ -58,7 +58,7 @@ class AuthViewsets(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
-    @action(methods=['POST'], detail=False, serializer_class=CreateUserSerializer, permission_classes=[IsAuthenticated, IsAdmin], url_path='invite-user')
+    @action(methods=['POST'], detail=False, serializer_class=CreateUserSerializer, permission_classes=[IsAuthenticated,], url_path='invite-user')
     def invite_user(self, request, pk=None):
         """This endpoint invites new user by admin"""
         try:

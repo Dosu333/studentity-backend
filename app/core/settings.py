@@ -109,9 +109,27 @@ LOGOUT_URL = 'rest_framework:logout'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    "default": dj_database_url.config(default=config('DATABASE_URL'))
-}
+# DATABASES = {
+#     "default": dj_database_url.config(default=config('DATABASE_URL'))
+# }
+
+DATABASES = {}
+
+if DEBUG == 0:
+    DATABASES['default'] = dj_database_url.config(
+        default=config('DATABASE_URL'))
+else:
+    DATABASES['default'] = {
+        "ENGINE": os.environ.get("SQL_ENGINE"),
+        "NAME": os.environ.get("POSTGRES_DB"),
+        "USER": os.environ.get("POSTGRES_USER"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+        "HOST": os.environ.get("SQL_HOST"),
+        "PORT": os.environ.get("SQL_PORT"),
+        "TEST": {
+            'NAME': "prune_test"
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -177,30 +195,41 @@ os.makedirs(STATIC_ROOT, exist_ok=True)
 
 # AWS CONFIG
 # to make sure all your files gives read only access to the files
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'core.storage_backends.MediaStorage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'core.storage_backends.MediaStorage'
+STATICFILES_STORAGE = 'core.storage_backends.AzureMediaStorage'
+DEFAULT_FILE_STORAGE = 'core.storage_backends.AzureStaticStorage'
 PRIVATE_MEDIA_LOCATION = 'private'
 PRIVATE_FILE_STORAGE = 'core.storage_backends.PrivateMediaStorage'
 
-AWS_DEFAULT_ACL = "public-read"
-AWS_QUERYSTRING_AUTH = False
-AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME')
-AWS_ACCESS_KEY_ID = os.environ.get('ACCESS_KEY_AWS')
-AWS_SECRET_ACCESS_KEY = os.environ.get('ACCESS_SECRET_AWS')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('ACCESS_BUCKET_NAME_AWS')
-AWS_S3_ENDPOINT_URL = f"https://{AWS_S3_REGION_NAME}.digitaloceanspaces.com"
-AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN')
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-AWS_LOCATION = f'static/{APP_NAME}'
-AWS_S3_SIGNATURE_VERSION = 's3v4'
-STATICFILES_DIRS = [
-    BASE_DIR / AWS_LOCATION,
-]
+# AWS_DEFAULT_ACL = "public-read"
+# AWS_QUERYSTRING_AUTH = False
+# AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME')
+# AWS_ACCESS_KEY_ID = os.environ.get('ACCESS_KEY_AWS')
+# AWS_SECRET_ACCESS_KEY = os.environ.get('ACCESS_SECRET_AWS')
+# AWS_STORAGE_BUCKET_NAME = os.environ.get('ACCESS_BUCKET_NAME_AWS')
+# AWS_S3_ENDPOINT_URL = f"https://{AWS_S3_REGION_NAME}.digitaloceanspaces.com"
+# AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN')
+# AWS_S3_OBJECT_PARAMETERS = {
+#     'CacheControl': 'max-age=86400',
+# }
+# AWS_LOCATION = f'static/{APP_NAME}'
+# AWS_S3_SIGNATURE_VERSION = 's3v4'
+STATIC_LOCATION = "static"
+MEDIA_LOCATION = "media"
 
-STATIC_URL = '{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-STATIC_ROOT = 'static/'
+AZURE_ACCOUNT_NAME = "studentitystatic"
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / STATIC_LOCATION,
+#     BASE_DIR / MEDIA_LOCATION,
+# ]
+
+# STATIC_URL = '{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+# STATIC_ROOT = 'static/'
 
 LOGGING = {
     'version': 1,
