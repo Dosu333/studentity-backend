@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", 1))
 
-ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "localhost", "4.221.67.237"]
+ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "localhost", "4.221.67.237", "api.joinstudentity.com"]
 INTERNAL_IPS = ["127.0.0.1"]
 if DEBUG:
     import os  # only if you haven't already imported this
