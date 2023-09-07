@@ -54,6 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                         choices=USER_ROLE), default=default_role, size=4)
     gender = ArrayField(models.CharField(max_length=7, blank=True,
                                         choices=GENDER_OPTION), default=default_gender, size=4)
+    company = models.CharField(max_length=255, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     last_login = models.DateTimeField(null=True)
