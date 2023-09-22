@@ -7,6 +7,7 @@ class Opportunity(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     body = models.TextField()
+    banner = models.FileField(upload_to='opportunity/', blank=True, null=True)
     application_link = models.CharField(max_length=255, blank=True, null=True)
     deadline = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
