@@ -38,11 +38,7 @@ class ChatConsumer(WebsocketConsumer):
         author = get_user_model().objects.get(id=text_data_json['author'])
 
         # Create new message
-        new_message = Message.objects.create(content=message, author=author)
-
-        # Add message to chat
-        self.chat.messages.add(new_message)
-        self.chat.save()
+        new_message = self.chat.messages.create(content=message, author=author)
 
         # Serialize message
         serialized_message = MessageSerializer(new_message).data

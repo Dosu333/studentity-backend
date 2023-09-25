@@ -13,9 +13,9 @@ class ChatSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         users = get_user_model().objects.filter(id__in=representation['participants'])
-        messages = Message.objects.filter(id__in=representation['messages']).order_by('-created_at').first()
+        messages = Message.objects.filter(id__in=representation['messages']).order_by('created_at')
         representation['participants'] = ListUserSerializer(users, many=True).data
-        representation['messages'] = [MessageSerializer(messages).data]
+        representation['messages'] = MessageSerializer(messages, many=True).data
         return representation
 
 class MessageSerializer(serializers.ModelSerializer):
