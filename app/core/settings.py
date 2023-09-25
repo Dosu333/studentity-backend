@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'core.celery.CeleryConfig',
     'user',
     'opportunity',
+    'chat',
 ]
 
 AUTH_USER_MODEL = "user.User"
